@@ -1,8 +1,8 @@
-import express from 'express';
 import bodyParser from 'body-parser';
+import express from 'express';
 import userRouter from './routes/usersRoute.js';
-import galleryItemRouter from './routes/galleryItemRouter.js';
 import mongoose from 'mongoose';
+import galleryItemRouter from './routes/galleryItemRouter.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config()
@@ -11,39 +11,36 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/api/users", userRouter);
-app.use("/api/gallery", galleryItemRouter);
+const connectionString = process.env.MONGO_URL;
 
 app.use((req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
 
-  if (!token) {
-      return res.status(401).json({ message: "No token provided" });
-  }
-
-  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+  if (token) {
+    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
       if (err) {
-          return res.status(403).json({ message: "Invalid or expired token" });
+        return next();  
       }
-
-      // Attach the decoded user info to the request
-      req.user = decoded;
+      req.user = decoded; 
       next();
-  });
+    });
+  } else {
+    next();  
+  }
 });
 
+mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("Connected to the database");
+  })
+  .catch(err => {
+    console.error("Connection failed", err.message);
+  });
 
-  
-const connectionString = process.env.MONGO_URL;
-mongoose.connect(connectionString)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error({
-        message: 'Failed to connect to MongoDB',
-        error: err.message,  
-        stack: err.stack,
-        timestamp: new Date()
-    }));
+app.use("/api/users", userRouter);
+app.use("/api/gallery", galleryItemRouter);
 
-app.listen(3000, () => {
-    console.log('Server started on port 3000');
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
