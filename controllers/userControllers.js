@@ -8,7 +8,6 @@ export function postUsers(req, res) {
     const user = req.body
     const password= req.body.password
     const passwordHash = bcrypt.hashSync(password,10)
-    console.log(passwordHash)
     user.password = passwordHash
    const newUser = new User(user)
     newUser.save().then(() => {
@@ -48,7 +47,8 @@ export function loginUser(req, res) {
                 _id: user._id,
                 email: user.email,
                 Firstname: user.Firstname,
-                Lastname: user.Lastname
+                Lastname: user.Lastname,
+                type:user.type
             };
 
             const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "1h" });

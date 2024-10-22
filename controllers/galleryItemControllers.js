@@ -8,13 +8,13 @@ export function createGalleryItem(req, res) {
             message: "Please login to create a new gallery item",
         });
     }
-    if (user.type !== "admin") {
+    if (user.type != "Admin") {
         return res.status(403).json({
             message: "Only admins can create gallery items",
         });
     }
 
-    const galleryItemData = req.body.item;
+    const galleryItemData = req.body;
 
     if (!galleryItemData) {
         return res.status(400).json({

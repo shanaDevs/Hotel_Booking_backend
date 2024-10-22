@@ -29,7 +29,7 @@ app.use((req, res, next) => {
   }
 });
 
-mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(connectionString)
   .then(() => {
     console.log("Connected to the database");
   })
