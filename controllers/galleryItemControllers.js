@@ -1,4 +1,4 @@
-import GalleryItem from "../modules/galleryItem.js";
+import GalleryItem from "../models/galleryItem.js";
 
 export function createGalleryItem(req, res) {
     const user = req.user;
