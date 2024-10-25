@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCategory, deleteCategory, getCategory,getCategorybyname } from '../controllers/categoryController.js';
+import { createCategory, deleteCategory, getCategory,getCategorybyname, updateCategory } from '../controllers/categoryController.js';
 
 const categoryRouter = express.Router();
 
@@ -13,5 +13,6 @@ res.json({
 categoryRouter.delete('/:name',deleteCategory);
 categoryRouter.get('/:name',getCategorybyname); 
 categoryRouter.get('/',getCategory);
+categoryRouter.put('/:name',updateCategory)
 
 export default categoryRouter;
