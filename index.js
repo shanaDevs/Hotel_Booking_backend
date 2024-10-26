@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import categoryRouter from './routes/categoryRouter.js';
 import roomRouter from './routes/roomRouter.js';
+import bookingRouter from './routes/bookingRouter.js';
 dotenv.config()
 
 const app = express();
@@ -43,6 +44,7 @@ app.use("/api/users", userRouter);
 app.use("/api/gallery", galleryItemRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/room", roomRouter)
+app.use("/api/bookings", bookingRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function () {
