@@ -8,9 +8,11 @@ import dotenv from 'dotenv';
 import categoryRouter from './routes/categoryRouter.js';
 import roomRouter from './routes/roomRouter.js';
 import bookingRouter from './routes/bookingRouter.js';
+import cors from 'cors';
 dotenv.config()
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.json());
 
