@@ -26,7 +26,7 @@ app.use((req, res, next) => {
       if (err) {
         return next();  
       }
-      req.user = decoded; 
+      req.body.user = decoded; 
       next();
     });
   } else {
