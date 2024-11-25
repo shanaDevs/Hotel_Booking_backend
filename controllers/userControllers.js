@@ -104,7 +104,7 @@ export function isAdminValid(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_KEY);
-        if (decoded.type === "admin") {
+        if (decoded.type === "Admin") {
             req.user = decoded;
             next();
         } else {
